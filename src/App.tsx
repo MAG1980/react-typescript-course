@@ -39,6 +39,11 @@ function App() {
     setTodos(newTodos)
   }
 
+  const deleteTodoHandler = (id: number) => {
+    const newTodos = todos.filter(todo => todo.id !== id)
+    setTodos(newTodos)
+  }
+
   return (
     <>
       <h1>Vite + React</h1>
@@ -51,6 +56,7 @@ function App() {
           title={todo.title}
           completed={todo.completed}
           checkboxClickHandler={checkboxClickHandler}
+          deleteTodoHandler={deleteTodoHandler}
         />))}
       <NewTodoForm changeHandler={changeHandler} clickHandler={clickHandler} text={text}/>
     </>
