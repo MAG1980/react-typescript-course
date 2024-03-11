@@ -11,7 +11,7 @@ function App() {
     setText(e.target.value);
   }
   const clickHandler = () => {
-    if ( todos && text ) {
+    if (todos && text) {
       setTodos([...todos, {
         id: new Date().getTime(),
         title: text,
@@ -29,19 +29,30 @@ function App() {
     };
   }, []);
 
+  const checkboxClickHandler = (id: number) => {
+    const newTodos = todos.map(todo => {
+      if (todo.id === id) {
+        return { ...todo, completed: !todo.completed }
+      }
+      return todo
+    })
+    setTodos(newTodos)
+  }
+
   return (
     <>
       <h1>Vite + React</h1>
-      <p>{ text }</p>
-      { todos?.map((todo) => (
+      <p>{text}</p>
+      {todos?.map((todo) => (
         <TodoItem
-          key={ todo.id }
-          { ...todo }
-          /*          id={ todo.id }
-                    title={ todo.title }
-                    completed={ todo.completed }*/
-        /> )) }
-      <NewTodoForm changeHandler={ changeHandler } clickHandler={ clickHandler } text={ text }/>
+          key={todo.id}
+
+          id={todo.id}
+          title={todo.title}
+          completed={todo.completed}
+          checkboxClickHandler={checkboxClickHandler}
+        />))}
+      <NewTodoForm changeHandler={changeHandler} clickHandler={clickHandler} text={text}/>
     </>
   )
 }
