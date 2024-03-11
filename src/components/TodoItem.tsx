@@ -3,8 +3,8 @@ import { Todo } from "../types";
 
 interface TodoItemProps extends Todo {
   style?: CSSProperties
-  checkboxClickHandler: (id: number) => void
-  deleteTodoHandler:(id: number)=> void
+  checkboxClickHandler: (id: Todo['id']) => void
+  deleteTodoHandler:(id: Todo['id'])=> void
 }
 
 export const TodoItem: FC<TodoItemProps> =
@@ -22,7 +22,7 @@ export const TodoItem: FC<TodoItemProps> =
       <li
         style={{ color: "red", backgroundColor: "white", ...style }}
       >
-        <input type="checkbox" checked={completed} onClick={() => checkboxClickHandler(id)}/>
+        <input type="checkbox" checked={completed} onChange={() => checkboxClickHandler(id)}/>
         <span>{title}</span>
         <span onClick={()=>deleteTodoHandler(id)}>&times;</span>
         {children}

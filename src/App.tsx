@@ -1,7 +1,7 @@
-import { TodoItem } from "./components/TodoItem";
 import { useEffect, useState } from "react";
 import { NewTodoForm } from "./components/NewTodoForm.tsx";
 import { Todo } from "./types";
+import { TodoList } from "./components/TodoList";
 
 function App() {
   const [text, setText] = useState('');
@@ -29,36 +29,12 @@ function App() {
     };
   }, []);
 
-  const checkboxClickHandler = (id: number) => {
-    const newTodos = todos.map(todo => {
-      if (todo.id === id) {
-        return { ...todo, completed: !todo.completed }
-      }
-      return todo
-    })
-    setTodos(newTodos)
-  }
-
-  const deleteTodoHandler = (id: number) => {
-    const newTodos = todos.filter(todo => todo.id !== id)
-    setTodos(newTodos)
-  }
 
   return (
     <>
       <h1>Vite + React</h1>
-      <p>{text}</p>
-      {todos?.map((todo) => (
-        <TodoItem
-          key={todo.id}
-
-          id={todo.id}
-          title={todo.title}
-          completed={todo.completed}
-          checkboxClickHandler={checkboxClickHandler}
-          deleteTodoHandler={deleteTodoHandler}
-        />))}
       <NewTodoForm changeHandler={changeHandler} clickHandler={clickHandler} text={text}/>
+      <TodoList todos={todos} setTodos={setTodos}/>
     </>
   )
 }
