@@ -15,7 +15,7 @@ const todoSlice = createSlice({
       }
       return [...state, NewTodo]
     },
-    togglTeodo: (state, action: PayloadAction<Todo['id']>) => {
+    togglTodo: (state, action: PayloadAction<Todo['id']>) => {
       const todo = state.find(el => el.id === action.payload)
       if (todo) {
         todo.completed = !todo.completed
@@ -23,10 +23,10 @@ const todoSlice = createSlice({
       return state
     },
     removeTodo: (state, action: PayloadAction<Todo['id']>) => {
-      return state.filter(el => el.id === action.payload)
+      return state.filter(el => el.id !== action.payload)
     }
   },
 })
 
 export default todoSlice.reducer
-export const { addTodo, togglTeodo, removeTodo}=todoSlice.actions
+export const { addTodo, togglTodo, removeTodo}=todoSlice.actions

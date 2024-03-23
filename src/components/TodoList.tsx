@@ -1,27 +1,16 @@
 import { FC } from "react";
-import { TodoItem } from "./TodoItem";
-import { Todo } from "../types";
+import { TodoItem } from "@/components/TodoItem";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux-hooks";
+import { togglTodo, removeTodo } from "@/features/Todo/todoSlice";
+import { Todo } from "@/types";
 
-interface TodoListProps {
-  todos: Todo[]
-  setTodos: (todos: Todo[]) => void
-}
 
-export const TodoList: FC<TodoListProps> = ({ todos, setTodos }) => {
-  const checkboxClickHandler = (id: Todo['id']) => {
-    const newTodos = todos.map(todo => {
-      if (todo.id === id) {
-        return { ...todo, completed: !todo.completed }
-      }
-      return todo
-    })
-    setTodos(newTodos)
-  }
+export const TodoList: FC = () => {
+  const todos = useAppSelector(state => state.todos)
+  const dispatch = useAppDispatch()
 
-  const deleteTodoHandler = (id: Todo['id']) => {
-    const newTodos = todos.filter(todo => todo.id !== id)
-    setTodos(newTodos)
-  }
+  const handleRemoveTodo = (id: Todo['id']) => dispatch(removeTodo(id))
+  const handleToggleCompleteTodo = (id: Todo['id']) => dispatch(togglTodo(id))
   return (
     <ul>
       {todos?.map((todo) => (
@@ -31,8 +20,8 @@ export const TodoList: FC<TodoListProps> = ({ todos, setTodos }) => {
           /* id={todo.id}
            title={todo.title}
            completed={todo.completed}*/
-          checkboxClickHandler={checkboxClickHandler}
-          deleteTodoHandler={deleteTodoHandler}
+          checkboxClickHandler={handleToggleCompleteTodo}
+          deleteTodoHandler={handleRemoveTodo}
         />))}
     </ul>
   )
