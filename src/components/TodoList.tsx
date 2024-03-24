@@ -3,10 +3,11 @@ import { TodoItem } from "@/components/TodoItem";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux-hooks";
 import { togglTodo, removeTodo } from "@/features/Todo/todoSlice";
 import { Todo } from "@/types";
+import { selectAllTodos } from "@/features/Todo/todoSelectors";
 
 
 export const TodoList: FC = () => {
-  const todos = useAppSelector(state => state.todos)
+  const todos = useAppSelector(selectAllTodos)
   const dispatch = useAppDispatch()
 
   const handleRemoveTodo = (id: Todo['id']) => dispatch(removeTodo(id))
