@@ -1,5 +1,7 @@
 import { TodoList } from "./components/TodoList";
 import { NewTodo } from "@/features/Todo/NewTodo";
+import { AsyncTodoList } from "@/features/AsyncTodo/AsyncTodoList";
+import { NewAsyncTodo } from "@/features/AsyncTodo/NewAsyncTodo";
 
 function App() {
 
@@ -17,6 +19,9 @@ function App() {
       <h1>Vite + React</h1>
       <NewTodo/>
       <TodoList/>
+      <hr/>
+      <NewAsyncTodo/>
+      <AsyncTodoList/>
     </>
   )
 }

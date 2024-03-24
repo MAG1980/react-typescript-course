@@ -8,7 +8,7 @@ const todoSlice = createSlice({
   initialState,
   reducers: {
     addTodo: (state, action: PayloadAction<string>) => {
-      const NewTodo = {
+      const NewTodo: Todo = {
         id: new Date().getTime(),
         title: action.payload,
         completed: false
