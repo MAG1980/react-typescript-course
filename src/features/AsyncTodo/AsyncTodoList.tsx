@@ -7,7 +7,7 @@ import { fetchAllTodos } from "@/features/AsyncTodo/todoAsyncActions";
 
 
 export const AsyncTodoList: FC = () => {
-  const { list } = useAppSelector(selectAsyncTodos)
+  const { list, status } = useAppSelector(selectAsyncTodos)
   const dispatch = useAppDispatch()
 
   const handleRemoveTodo = (id: Todo['id']) => {
@@ -25,16 +25,18 @@ export const AsyncTodoList: FC = () => {
 
   return (
     <ul>
-      {list?.map((todo) => (
+      { status === 'loading' && <li>loading...</li> }
+      { status === 'error' && <li>error</li> }
+      { status === 'finished' && list?.map((todo) => (
         <TodoItem
-          key={todo.id}
-          {...todo}
+          key={ todo.id }
+          { ...todo }
           /* id={todo.id}
            title={todo.title}
            completed={todo.completed}*/
-          checkboxClickHandler={handleToggleCompleteTodo}
-          deleteTodoHandler={handleRemoveTodo}
-        />))}
+          checkboxClickHandler={ handleToggleCompleteTodo }
+          deleteTodoHandler={ handleRemoveTodo }
+        /> )) }
     </ul>
   )
 }
