@@ -48,13 +48,19 @@ export const createTodo = createAsyncThunk<Todo, string>(
 
 export const removeTodo = createAsyncThunk<
   Todo['id'],
-  Todo['id']
+  Todo['id'],
+  {rejectValue:string}
 >(
   'todos/removeTodo',
-  async (todoId: Todo['id']) => {
+  async (todoId: Todo['id'], { rejectWithValue }) => {
     console.log("todoId", todoId, typeof todoId)
     const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${ todoId }`,
       { method: "DELETE", })
+
+    if ( response.status !== 200 ) {
+      return rejectWithValue(`todo with id ${ todoId } not found`)
+    }
+
     await response.json()
     return todoId
   }
