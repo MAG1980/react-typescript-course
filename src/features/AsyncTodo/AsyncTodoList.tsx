@@ -13,8 +13,8 @@ export const AsyncTodoList: FC = () => {
   const handleRemoveTodo = (id: Todo['id']) => {
     dispatch(removeTodo(id))
   }
-  const handleToggleCompleteTodo = (todo: Todo) => {
-    dispatch(toggleTodo(todo))
+  const handleToggleCompleteTodo = (todoId: Todo['id']) => {
+    dispatch(toggleTodo(todoId))
   }
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export const AsyncTodoList: FC = () => {
           /* id={todo.id}
            title={todo.title}
            completed={todo.completed}*/
-          checkboxClickHandler={ () => handleToggleCompleteTodo(todo) }
+          checkboxClickHandler={ () => handleToggleCompleteTodo(todo.id) }
           deleteTodoHandler={ () => handleRemoveTodo(todo.id) }
         /> )) }
     </ul>

@@ -68,28 +68,37 @@ export const removeTodo = createAsyncThunk<
 
 export const toggleTodo = createAsyncThunk<
   Todo['id'],
-  Todo
+  Todo['id'],
+  {
+    state: { asyncTodos: TodoSlice },
+    rejectValue: string
+  }
 >(
   'todos/toggleTodo',
-  async (todo) => {
-    console.log('todo', todo)
+  async (todoId, { getState, rejectWithValue }) => {
+    const todo = getState().asyncTodos.list.find(el => el.id === todoId)
+    if ( todo ) {
+      console.log('todo', todo)
 
-    try {
-      const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${ todo.id }`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8'
-          },
-          body: JSON.stringify({
-            ...todo, completed: !todo.completed
+      try {
+        const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${ todoId }`,
+          {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8'
+            },
+            body: JSON.stringify({
+              completed: todo.completed
+            })
           })
-        })
-      await response.json()
-    } catch ( error ) {
-      console.log(error)
-    }
+        await response.json()
+      } catch ( error ) {
+        rejectWithValue(`Impossible update todo with id ${ todo.id }. Error: ${ error }`)
+        console.log(error)
+      }
 
-    return todo.id
+      return todo.id
+    }
+    rejectWithValue(`todo with id ${ todoId } not found.`)
   }
 )
