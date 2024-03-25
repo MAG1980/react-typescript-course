@@ -3,7 +3,7 @@ import { TodoItem } from "@/components/TodoItem";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux-hooks";
 import { Todo } from "@/types";
 import { selectAsyncTodos } from "@/features/AsyncTodo/asyncTodoSelectors";
-import { fetchAllTodos, removeTodo } from "@/features/AsyncTodo/todoAsyncActions";
+import { fetchAllTodos, removeTodo, toggleTodo } from "@/features/AsyncTodo/todoAsyncActions";
 
 
 export const AsyncTodoList: FC = () => {
@@ -13,14 +13,15 @@ export const AsyncTodoList: FC = () => {
   const handleRemoveTodo = (id: Todo['id']) => {
     dispatch(removeTodo(id))
   }
-  const handleToggleCompleteTodo = (id: Todo['id']) => {
-    // dispatch(togglTodo(id))
+  const handleToggleCompleteTodo = (todo: Todo) => {
+    dispatch(toggleTodo(todo))
   }
 
   useEffect(() => {
     dispatch(fetchAllTodos())
-    return () => { };
-  }, [dispatch, fetchAllTodos]);
+    return () => {
+    };
+  }, [dispatch]);
 
 
   return (
@@ -34,7 +35,7 @@ export const AsyncTodoList: FC = () => {
           /* id={todo.id}
            title={todo.title}
            completed={todo.completed}*/
-          checkboxClickHandler={ handleToggleCompleteTodo }
+          checkboxClickHandler={ () => handleToggleCompleteTodo(todo) }
           deleteTodoHandler={ () => handleRemoveTodo(todo.id) }
         /> )) }
     </ul>

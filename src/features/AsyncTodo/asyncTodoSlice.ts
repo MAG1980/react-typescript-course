@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { Todo } from "@/types";
-import { createTodo, fetchAllTodos, removeTodo } from "@/features/AsyncTodo/todoAsyncActions.ts";
+import { createTodo, fetchAllTodos, removeTodo, toggleTodo } from "@/features/AsyncTodo/todoAsyncActions.ts";
 
 export type TodoSlice = {
   status: 'idle' | 'loading' | 'finished' | 'error',
   list: Todo[]
 }
 
-const initialState:TodoSlice = {
+const initialState: TodoSlice = {
   status: 'idle',
   list: []
 }
@@ -46,6 +46,21 @@ const asyncTodoSlice = createSlice({
       .addCase(removeTodo.rejected, ( state => {
         state.status = 'error'
       } ))
+      .addCase(toggleTodo.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(toggleTodo.fulfilled, (state, action) => {
+        const todo = state.list.find(
+          el => el.id === action.payload
+        )
+        if ( todo ) {
+          todo.completed = !todo.completed
+        }
+        state.status = 'finished'
+      })
+      .addCase(toggleTodo.rejected, (state) => {
+        state.status = 'error'
+      })
   }
 })
 

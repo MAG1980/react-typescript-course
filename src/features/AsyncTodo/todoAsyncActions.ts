@@ -59,3 +59,31 @@ export const removeTodo = createAsyncThunk<
     return todoId
   }
 )
+
+export const toggleTodo = createAsyncThunk<
+  Todo['id'],
+  Todo
+>(
+  'todos/toggleTodo',
+  async (todo) => {
+    console.log('todo', todo)
+
+    try {
+      const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${ todo.id }`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8'
+          },
+          body: JSON.stringify({
+            ...todo, completed: !todo.completed
+          })
+        })
+      await response.json()
+    } catch ( error ) {
+      console.log(error)
+    }
+
+    return todo.id
+  }
+)
