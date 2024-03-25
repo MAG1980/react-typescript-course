@@ -27,7 +27,7 @@ export const fetchAllTodos = createAsyncThunk<
 )
 
 export const createTodo = createAsyncThunk<Todo, string>(
-  'todos/createTodod',
+  'todos/createTodo',
   async (text: string) => {
     const NewTodo: Required<Omit<Todo, 'id' | 'children'>> = {
       title: text,
@@ -42,6 +42,20 @@ export const createTodo = createAsyncThunk<Todo, string>(
       },
       body: JSON.stringify(NewTodo)
     })
-    return (await response.json()) as Todo
+    return ( await response.json() )
+  }
+)
+
+export const removeTodo = createAsyncThunk<
+  Todo['id'],
+  Todo['id']
+>(
+  'todos/removeTodo',
+  async (todoId: Todo['id']) => {
+    console.log("todoId", todoId, typeof todoId)
+    const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${ todoId }`,
+      { method: "DELETE", })
+    await response.json()
+    return todoId
   }
 )

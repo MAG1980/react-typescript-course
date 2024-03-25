@@ -3,7 +3,7 @@ import { TodoItem } from "@/components/TodoItem";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux-hooks";
 import { Todo } from "@/types";
 import { selectAsyncTodos } from "@/features/AsyncTodo/asyncTodoSelectors";
-import { fetchAllTodos } from "@/features/AsyncTodo/todoAsyncActions";
+import { fetchAllTodos, removeTodo } from "@/features/AsyncTodo/todoAsyncActions";
 
 
 export const AsyncTodoList: FC = () => {
@@ -11,7 +11,7 @@ export const AsyncTodoList: FC = () => {
   const dispatch = useAppDispatch()
 
   const handleRemoveTodo = (id: Todo['id']) => {
-    // dispatch(removeTodo(id))
+    dispatch(removeTodo(id))
   }
   const handleToggleCompleteTodo = (id: Todo['id']) => {
     // dispatch(togglTodo(id))
@@ -35,7 +35,7 @@ export const AsyncTodoList: FC = () => {
            title={todo.title}
            completed={todo.completed}*/
           checkboxClickHandler={ handleToggleCompleteTodo }
-          deleteTodoHandler={ handleRemoveTodo }
+          deleteTodoHandler={ () => handleRemoveTodo(todo.id) }
         /> )) }
     </ul>
   )
